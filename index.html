@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Front-End Quiz App</title>
+<style> body {
+font-family: "Poppins", Arial, sans-serif;
+background: linear-gradient(135deg, #74ebd5, #9face6); padding: 20px;
+margin: 0;
+min-height: 100vh; display: flex;
+justify-content: center; align-items: center;
+}
+.container {
+max-width: 600px; background: #fff; padding: 30px; border-radius: 15px;
+box-shadow: 0 0 20px rgba(0,0,0,0.2); text-align: center;
+}
+h1, h2 { color: #333;
+}
+#home p { color: #555; font-size: 18px;
+margin-bottom: 25px;
+}
+button {
+background: linear-gradient(45deg, #007BFF, #00C6FF); color: white;
+padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer;
+font-size: 16px;
+transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+background: linear-gradient(45deg, #0056b3, #0099ff); transform: scale(1.05);
+
+}
+.option {
+margin-bottom: 10px; text-align: left; padding: 8px; background: #f8f8f8; border-radius: 5px; transition: 0.3s;
+}
+.option:hover { background: #e9f3ff;
+}
+#score {
+font-size: 22px; font-weight: bold; margin-top: 20px; color: #222;
+}
+#quiz { display: none;
+}
+</style>
+</head>
+<body>
+<div id="home" class="container">
+<h1>Welcome to the Front-End Quiz!</h1>
+<p>Test your knowledge of HTML, CSS, and JavaScript.<br>Are you ready to play?</p>
+<button onclick="startQuiz()">Start Quiz</button>
+</div>
+<div id="quiz" class="container">
+<div class="quiz-header">
+<h2 id="question">Question text</h2>
+<div id="options"></div>
+</div>
+<button onclick="submitAnswer()">Submit</button>
+<div id="score"></div>
+</div>
+<script>
+const quizData = [
+{
+question: "What does HTML stand for?", options: [
+"Hyper Text Markup Language", "Home Tool Markup Language",
+"Hyperlinks and Text Markup Language", "Hyper Tool Multi Language"
+],
+
+answer: 0
+},
+{
+question: "Which HTML tag is used to define an internal style sheet?", options: ["&lt;css&gt;", "&lt;script&gt;", "&lt;style&gt;", "&lt;link&gt;"], answer: 2
+},
+{
+question: "Which CSS property is used to change text color?", options: ["font-color", "text-color", "color", "style"],
+answer: 2
+},
+{
+question: "Inside which HTML element do we put the JavaScript?", options: ["&lt;js&gt;", "&lt;javascript&gt;", "&lt;script&gt;", "&lt;code&gt;"], answer: 2
+},
+{
+question: "Which JavaScript method is used to write into an alert box?", options: ["alert()", "msg()", "prompt()", "message()"],
+answer: 0
+},
+{
+question: "Which property is used to make a webpage responsive?", options: ["@media", "responsive", "viewport", "grid"],
+answer: 0
+},
+{
+question: "What does DOM stand for?", options: [
+"Document Object Model", "Data Object Method", "Display Object Mode", "Desktop Oriented Mode"
+],
+answer: 0
+},
+{
+question: "Which is a JavaScript framework?", options: ["Laravel", "React", "Django", "Rails"], answer: 1
+},
+{
+question: "Which tag is used to include external JavaScript?", options: ["&lt;js&gt;", "&lt;script&gt;", "&lt;link&gt;", "&lt;javascript&gt;"], answer: 1
+},
+{
+question: "Which HTML attribute is used to define inline styles?", options: ["class", "font", "style", "styles"],
+answer: 2
+}
+];
+let currentQuestion = 0; let score = 0;
+const homeEl = document.getElementById("home"); const quizEl = document.getElementById("quiz");
+const questionEl = document.getElementById("question"); const optionsEl = document.getElementById("options"); const scoreEl = document.getElementById("score");
+function startQuiz() { homeEl.style.display = "none"; quizEl.style.display = "block"; loadQuestion();
+}
+function loadQuestion() {
+const q = quizData[currentQuestion];
+questionEl.innerHTML = `Q${currentQuestion + 1}. ${q.question}`; optionsEl.innerHTML = "";
+q.options.forEach((opt, index) => {
+const option = document.createElement("div"); option.classList.add("option"); option.innerHTML = `
+<label>
+<input type="radio" name="answer" value="${index}">
+${opt}
+</label>
+`; optionsEl.appendChild(option);
+});
+}
+function submitAnswer() {
+const selected = document.querySelector('input[name="answer"]:checked'); if (!selected) {
+alert("Please select an answer."); return;
+}
+const answer = parseInt(selected.value);
+if (answer === quizData[currentQuestion].answer) { score++;
+}
+currentQuestion++;
+if (currentQuestion < quizData.length) { loadQuestion();
+} else { showScore();
+}
+function showScore() {
+document.querySelector(".quiz-header").style.display = "none"; document.querySelector("button").style.display = "none";
+scoreEl.innerHTML=Youscored<strong>${score}</strong>	out of<strong>${quizData.length}</strong>!`;
+}
+</script>
+</body>
+</html>
